@@ -1,6 +1,14 @@
-trait Pet{
+pub trait Pet{
     fn name(&self) -> &'static str;
     fn age(&self) -> f32;
+
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result{
+        write!(f, "{}, Age {:0.1}", self.name(), self.age())
+    }
+
+    fn get_info_string(&self) -> String {
+        format!("{}, Age {:0.1}", self.name(), self.age())
+    }
 }
 
 struct Dog{name: &'static str, age: f32}
@@ -15,9 +23,11 @@ impl std::fmt::Display for dyn Pet{
         write!(f, "{}, Age {:0.1}", self.name(), self.age())
     }
 }
+
 fn main() {
     println!("Petdex");
 
     let pet = Dog{name: "Arley", age: 4.5};
-    println!("{}", pet);
+    pet.get_info_string();
+    // println!("{}", pet);
 }
